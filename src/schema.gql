@@ -1,0 +1,209 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""User authentication response"""
+type AuthResponse {
+  """Authentication tokens"""
+  token: AuthToken!
+
+  """User data"""
+  user: User!
+}
+
+"""User authentication token"""
+type AuthToken {
+  """Access token"""
+  access_token: String!
+
+  """Refresh token"""
+  refresh_token: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+"""Email verification input"""
+input EmailVerificationInput {
+  """User ID"""
+  user_id: String!
+
+  """Verification OTP"""
+  verification_otp: String!
+}
+
+"""User login input"""
+input LoginInput {
+  """User email"""
+  email: String!
+
+  """User password"""
+  password: String!
+}
+
+type Mutation {
+  authLogin(loginInput: LoginInput!): AuthResponse!
+
+  """Logout user"""
+  authLogout(refreshToken: String!): Boolean!
+
+  """Refresh authentication tokens"""
+  authRefreshToken(refreshToken: String!): AuthToken!
+  authRegister(registerInput: RegisterInput!): AuthResponse!
+
+  """Request email verification"""
+  authRequestEmailVerification(requestEmailVerificationInput: RequestEmailVerificationInput!): Boolean!
+
+  """Request password reset"""
+  authRequestPasswordReset(requestPasswordResetInput: RequestPasswordResetInput!): RequestPasswordResetResponse!
+
+  """Reset password"""
+  authResetPassword(passwordResetInput: PasswordResetInput!): Boolean!
+
+  """Verify email"""
+  authVerifyEmail(emailVerificationInput: EmailVerificationInput!): Boolean!
+  userDemoNotification: Boolean!
+  userUpdateMe(updateUserInput: UpdateUserInput!): User!
+}
+
+"""Pagination input"""
+input PaginationInput {
+  """Limit per page"""
+  limit: Float! = 10
+
+  """Page number"""
+  page: Float! = 1
+}
+
+"""Pagination response"""
+type PaginationResponse {
+  """Limit per page"""
+  limit: Float!
+
+  """Page number"""
+  page: Float!
+
+  """Total documents"""
+  total_docs: Float!
+
+  """Total pages"""
+  total_pages: Float!
+}
+
+"""Reset password input"""
+input PasswordResetInput {
+  """New password"""
+  new_password: String!
+
+  """Reset OTP"""
+  reset_otp: String!
+
+  """User ID"""
+  user_id: String!
+}
+
+type Query {
+  userGetAll(paginationInput: PaginationInput!): UserGetAllResponse!
+  userGetMe: User!
+}
+
+"""User registration input"""
+input RegisterInput {
+  """User email address"""
+  email: String!
+
+  """User full name"""
+  name: String!
+
+  """User password"""
+  password: String!
+}
+
+"""Request email verification input"""
+input RequestEmailVerificationInput {
+  """User ID"""
+  user_id: String!
+}
+
+"""Request password reset input"""
+input RequestPasswordResetInput {
+  """Email"""
+  email: String!
+}
+
+"""Request password reset response"""
+type RequestPasswordResetResponse {
+  """User ID"""
+  user_id: String
+}
+
+type Subscription {
+  userNotification: UserNotification!
+}
+
+"""Update user input"""
+input UpdateUserInput {
+  """User's profile image in base64"""
+  image: String
+
+  """User's name"""
+  name: String
+}
+
+type User {
+  """Account disabled status"""
+  account_disabled: Boolean!
+
+  """User created date"""
+  created_at: DateTime!
+
+  """Email address"""
+  email: String!
+
+  """Email verification status"""
+  email_verified: Boolean!
+
+  """User ID"""
+  id: ID!
+
+  """User image"""
+  image: String
+
+  """Full name"""
+  name: String!
+
+  """Password"""
+  password: String!
+
+  """User role"""
+  role: UserRole!
+
+  """User updated date"""
+  updated_at: DateTime!
+}
+
+"""Get all users response"""
+type UserGetAllResponse {
+  """Pagination"""
+  pagination: PaginationResponse!
+
+  """Users"""
+  users: [User!]!
+}
+
+"""User notification response"""
+type UserNotification {
+  """Notification body"""
+  body: String!
+
+  """Notification title"""
+  title: String!
+}
+
+"""User roles"""
+enum UserRole {
+  SUPER_ADMIN
+  USER
+}
